@@ -56,7 +56,7 @@ void loop() {
   
   // put your main code here, to run repeatedly:
 int i=0;
+for(i=0;i<111;i=i+2)
 strip.setPixelColor(i, 150, 150, 150);
-i=i+2;
 strip.show();
 }
