@@ -47,7 +47,6 @@ void setup() {
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.show();            // Turn OFF all pixels ASAP
   strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
-  strip.setPixelColor(11, 255, 0, 255);
 }
 
 
@@ -59,4 +58,5 @@ void loop() {
 int i=0;
 strip.setPixelColor(1, 255, 255, 255);
 i=i+2;
+strip.show();
 }
