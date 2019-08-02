@@ -9,7 +9,6 @@
 // - When using a 3.3V microcontroller with a 5V-powered NeoPixel strip,
 //   a LOGIC-LEVEL CONVERTER on the data line is STRONGLY RECOMMENDED.
 // (Skipping these may work OK on your workbench but can fail in the field)
-
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
  #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
@@ -20,7 +19,7 @@
 #define LED_PIN    7
 
 // How many NeoPixels are attached to the Arduino?
-#define LED_COUNT 60
+#define LED_COUNT 6
 
 // Declare our NeoPixel strip object:
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
@@ -52,11 +51,26 @@ void setup() {
 
 // loop() function -- runs repeatedly as long as board is on ---------------
 
-void loop() {
-  
-  // put your main code here, to run repeatedly:
-int i=0;
-for(i=0;i<111;i=i+2)
-strip.setPixelColor(i, 150, 150, 150);
-strip.show();
+void loop() 
+{
+  colorWipe(strip.Color(255,   0,   0), 500); // Red
+  colorWipe2(strip.Color(0  , 255,   0), 500);//grenn
+  colorWipe(strip.Color(  0,   0, 255), 500);//blue
+  colorWipe2(strip.Color(255,   0,   0), 500);
+  colorWipe(strip.Color(0  , 255,   0), 500);
+  colorWipe2(strip.Color(  0,   0, 255), 500);
+}
+  void colorWipe(uint32_t color, int wait) {
+  for(int i=0; i<strip.numPixels(); i=i+2) { // For each pixel in strip...
+    strip.setPixelColor(i, color);         //  Set pixel's color (in RAM)
+    strip.show();                          //  Update strip to match
+    delay(wait);                           //  Pause for a moment
+  }
+}
+void colorWipe2(uint32_t color, int wait) {
+  for(int i=1; i<strip.numPixels(); i=i+2) { // For each pixel in strip...
+    strip.setPixelColor(i, color);         //  Set pixel's color (in RAM)
+    strip.show();                          //  Update strip to match
+    delay(wait);                           //  Pause for a moment
+  }
 }
