@@ -46,7 +46,7 @@ void setup() {
 
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.show();            // Turn OFF all pixels ASAP
-  strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
+  strip.setBrightness(255); // Set BRIGHTNESS to about 1/5 (max = 255)
 }
 
 
@@ -54,22 +54,22 @@ void setup() {
 
 void loop() 
 {
-  colorWipe(strip.Color(255,   0,   0), 500); // Red
-  colorWipe2(strip.Color(0  , 255,   0), 500);//grenn
-  colorWipe(strip.Color(  0,   0, 255), 500);//blue
-  colorWipe2(strip.Color(255,   0,   0), 500);
-  colorWipe(strip.Color(0  , 255,   0), 500);
-  colorWipe2(strip.Color(  0,   0, 255), 500);
+  colorWipe(strip.Color(255,   0,   0), 50); // Red
+  colorWipe2(strip.Color(0  , 255,   255), 50);//grenn
+  //colorWipe(strip.Color(  0,   0, 255), 500);//blue
+  //colorWipe2(strip.Color(255,   0,   0), 500);
+  //colorWipe(strip.Color(0  , 255,   0), 500);
+  //colorWipe2(strip.Color(  0,   0, 255), 500);
 }
   void colorWipe(uint32_t color, int wait) {
-  for(int i=0; i<strip.numPixels(); i=i+2) { // For each pixel in strip...
+  for(int i=0; i<strip.numPixels(); i=i+1) { // For each pixel in strip...
     strip.setPixelColor(i, color);         //  Set pixel's color (in RAM)
     strip.show();                          //  Update strip to match
     delay(wait);                           //  Pause for a moment
   }
 }
 void colorWipe2(uint32_t color, int wait) {
-  for(int i=1; i<strip.numPixels(); i=i+2) { // For each pixel in strip...
+  for(int i=0; i<strip.numPixels(); i=i+1) { // For each pixel in strip...
     strip.setPixelColor(i, color);         //  Set pixel's color (in RAM)
     strip.show();                          //  Update strip to match
     delay(wait);                           //  Pause for a moment
