@@ -51,27 +51,52 @@ void setup() {
 
 
 // loop() function -- runs repeatedly as long as board is on ---------------
+int b=100; //rate of change of lights
+
+
 
 void loop() 
 {
-  colorWipe(strip.Color(255,   0,   0), 50); // Red
-  colorWipe2(strip.Color(0  , 255,   255), 50);//grenn
-  //colorWipe(strip.Color(  0,   0, 255), 500);//blue
+  colorWipe(strip.Color(  252,   0,   0), b); // Red
+  colorWipefollow(strip.Color( 252,   0,  0), b);
+  //colorWipe2(strip.Color( 0 , 255, 255), 12);//grenn
+  //colorWipe2follow(strip.Color(  0,   0, 255), 12);
+  //colorWipe(strip.Color(  0,   0, 255), 12);//blue
   //colorWipe2(strip.Color(255,   0,   0), 500);
   //colorWipe(strip.Color(0  , 255,   0), 500);
   //colorWipe2(strip.Color(  0,   0, 255), 500);
 }
   void colorWipe(uint32_t color, int wait) {
-  for(int i=0; i<strip.numPixels(); i=i+1) { // For each pixel in strip...
-    strip.setPixelColor(i, color);         //  Set pixel's color (in RAM)
+  for(int i=0; i<strip.numPixels()+4; i=i+1) { // For each pixel in strip...
+    strip.setPixelColor(i, color);//  Set pixel's color (in RAM)
+    strip.setPixelColor(i-1, color/2);
+    strip.setPixelColor(i-2, color/6);
+    strip.setPixelColor(i-3, color/12);
+    
+    
     strip.show();                          //  Update strip to match
-    delay(wait);                           //  Pause for a moment
+    delay(wait); //  Pause for a moment
+    strip.clear();
   }
 }
 void colorWipe2(uint32_t color, int wait) {
-  for(int i=0; i<strip.numPixels(); i=i+1) { // For each pixel in strip...
+  for(int i=strip.numPixels(); i>=0; i=i-1) { // For each pixel in strip...
     strip.setPixelColor(i, color);         //  Set pixel's color (in RAM)
     strip.show();                          //  Update strip to match
-    delay(wait);                           //  Pause for a moment
+    delay(wait); //  Pause for a moment
+    strip.clear();
+  }
+}
+void colorWipefollow(uint32_t color, int wait) {
+  for(int i=strip.numPixels()-1; i>=-4; i=i-1) { // For each pixel in strip...
+    strip.setPixelColor(i, color);//  Set pixel's color (in RAM)
+    strip.setPixelColor(i+1, color/2);
+    strip.setPixelColor(i+2, color/6);
+    strip.setPixelColor(i+3, color/12);
+    
+    
+    strip.show();                          //  Update strip to match
+    delay(wait); //  Pause for a moment
+    strip.clear();
   }
 }
