@@ -57,8 +57,8 @@ int b=100; //rate of change of lights
 
 void loop() 
 {
-  colorWipe(strip.Color(  252,   0,   0), b); // Red
-  colorWipefollow(strip.Color( 252,   0,  0), b);
+  colorWipe(strip.Color(   0, 252, 252), b); // Red
+  colorWipefollow(strip.Color(   0, 252, 252), b);
   //colorWipe2(strip.Color( 0 , 255, 255), 12);//grenn
   //colorWipe2follow(strip.Color(  0,   0, 255), 12);
   //colorWipe(strip.Color(  0,   0, 255), 12);//blue
