@@ -1,15 +1,4 @@
-// A basic everyday NeoPixel strip test program.
-
-// NEOPIXEL BEST PRACTICES for most reliable operation:
-// - Add 1000 uF CAPACITOR between NeoPixel strip's + and - connections.
-// - MINIMIZE WIRING LENGTH between microcontroller board and first pixel.
-// - NeoPixel strip's DATA-IN should pass through a 300-500 OHM RESISTOR.
-// - AVOID connecting NeoPixels on a LIVE CIRCUIT. If you must, ALWAYS
-//   connect GROUND (-) first, then +, then data.
-// - When using a 3.3V microcontroller with a 5V-powered NeoPixel strip,
-//   a LOGIC-LEVEL CONVERTER on the data line is STRONGLY RECOMMENDED.
-// (Skipping these may work OK on your workbench but can fail in the field)
-
+#include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
  #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
@@ -33,36 +22,56 @@ Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
 
+int brgt=0;
+int hhue=0;
+int i=0;
 
-// setup() function -- runs once at startup --------------------------------
+int r=0;
+int g=0;
+int b=0;
 
 void setup() {
-  // These lines are specifically to support the Adafruit Trinket 5V 16 MHz.
-  // Any other board, you can remove this part (but no harm leaving it):
-#if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
-  clock_prescale_set(clock_div_1);
-#endif
-  // END of Trinket-specific code.
+  #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
+    clock_prescale_set(clock_div_1);
+  #endif
+    // END of Trinket-specific code.
 
-  strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
-  strip.show();            // Turn OFF all pixels ASAP
-  strip.setBrightness(255); // Set BRIGHTNESS to about 1/5 (max = 255)
+    strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
+    strip.show();            // Turn OFF all pixels ASAP
+    //strip.setBrightness(brgt); // Set BRIGHTNESS to about 1/5 (max = 255)
+  pinMode(A0,INPUT_PULLUP);
+  Serial.begin(9600);
+  pinMode(A1, INPUT);//hue node
+  Serial.begin(9600);
+  pinMode(A2, INPUT);//potentiometer
+  pinMode(7, OUTPUT);//lights
+
+
 }
 
 
-// loop() function -- runs repeatedly as long as board is on ---------------
+
 
 void loop() {
-  // Fill along the length of the strip in various colors...
-  //colorWipe(strip.Color(255,   255,   255), 50);// white
-  rainbow(0);
-}
-void rainbow(int wait) {
-  // Hue of first pixel runs 5 complete loops through the color wheel.
-  // Color wheel has a range of 65536 but it's OK if we roll over, so
-  // just count from 0 to 5*65536. Adding 256 to firstPixelHue each time
-  // means we'll make 5*65536/256 = 1280 passes through this outer loop:
-  for(long firstPixelHue = 0; firstPixelHue < 5*65536; firstPixelHue += 256) {
+  // put your main code here, to run repeatedly:
+  int pixelHue=0;
+  strip.setBrightness(brgt);
+
+  if (digitalRead(A0) == HIGH) {
+     brgt = brgt + 30; // push button for incresing brightnness
+     if (brgt > 255) {
+      brgt = 0;
+     }
+     Serial.println("Pin A0 HIGH");
+     delay(400);
+  }
+
+  if (digitalRead(A1) == HIGH) {
+    
+    Serial.println("Pin A1 HIGH");
+     delay(400);
+    
+    for(long firstPixelHue = 0; firstPixelHue < 5*65536; firstPixelHue += 256) {
     for(int i=0; i<strip.numPixels(); i++) { // For each pixel in strip...
       // Offset pixel hue by an amount to make one full revolution of the
       // color wheel (range of 65536) along the length of the strip
@@ -71,18 +80,56 @@ void rainbow(int wait) {
       // strip.ColorHSV() can take 1 or 3 arguments: a hue (0 to 65535) or
       // optionally add saturation and value (brightness) (each 0 to 255).
       // Here we're using just the single-argument hue variant. The result
-      // is passed through strip.gamma32() to provide 'truer' colors
+      // is passed through strip.gamma32() to provide 'truer' colors 
       // before assigning to each pixel:
-      strip.setPixelColor(i, strip.gamma32(strip.ColorHSV(pixelHue)));
+
+  }
     }
-    strip.show(); // Update strip with new contents
-    delay(wait);  // Pause for a moment
   }
+
+for (i=0 ; i<=strip.numPixels(); i++){
+strip.setPixelColor(i, strip.gamma32(strip.ColorHSV(pixelHue)));
+strip.show();
+
 }
-void colorWipe(uint32_t color, int wait) {
-  for(int i=0; i<strip.numPixels(); i++) { // For each pixel in strip...
-    strip.setPixelColor(i, color);         //  Set pixel's color (in RAM)
-    strip.show();                          //  Update strip to match
-    delay(wait);                           //  Pause for a moment
-  }
+    } 
+
+
+
+
+
+
+
+
+/*int j=0;
+int r=0;
+int g=0;
+int b=0;
+
+for(j=0;j<=6;j++){
+  if(j=0);{
+  r=255;
 }
+  if(j=1);{
+  r=255;
+  g=255;
+}
+  if(j=2);{
+  g=255;
+}
+  if(j=3);{
+  g=255;
+  b=255;
+}
+  if(j=4);{
+  b=255
+}
+  if(j=5);{
+  r=255
+  b=255
+}
+  if(j=6);{
+  j=0;
+}
+}
+*/
