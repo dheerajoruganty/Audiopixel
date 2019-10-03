@@ -60,7 +60,10 @@ int val;
 int db,dbclr,dbprev;
 int trigger;
 int correctionFactor;
-correctionFactor=49;
+//const corfac;
+
+correctionFactor=56;
+//corfac=56;
 unsigned long currentMillis = millis();
  val =analogRead(sensorPin);//it varies every time so gotta update the value after initialising the sensor
  
@@ -70,15 +73,23 @@ unsigned long currentMillis = millis();
  if(db<correctionFactor) //mean = 513
  {
    db=(db-correctionFactor)*(-1);
-   db=db+correctionFactor;
+   //db=db+correctionFactor;
  }
-  switch(db)
+ else 
+ {
+   db=db-correctionFactor;
+ }
+ if (db>0)
+ {
+  Serial.println (db);
+ }
+/*  switch(db)
   {
-    case(49):break;
+    case():break;
     default:
             Serial.println (db);
             break;
-  }
+  }*/
   
 
 if(trigger==1)
