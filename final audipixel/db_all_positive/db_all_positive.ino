@@ -59,20 +59,22 @@ void loop() {
 int val;
 int db,dbclr,dbprev;
 int trigger;
+int correctionFactor;
+correctionFactor=49;
 unsigned long currentMillis = millis();
- val =analogRead(sensorPin);
+ val =analogRead(sensorPin);//it varies every time so gotta update the value after initialising the sensor
  
  db = (val+83.2073) / 11.003; //Convert ADC value to dB using Regression values
  
  //delay(20);
- if(db<55) //mean = 513
+ if(db<correctionFactor) //mean = 513
  {
-   db=(db-55)*(-1);
-   db=db+55;
+   db=(db-correctionFactor)*(-1);
+   db=db+correctionFactor;
  }
   switch(db)
   {
-    case(55):break;
+    case(49):break;
     default:
             Serial.println (db);
             break;
