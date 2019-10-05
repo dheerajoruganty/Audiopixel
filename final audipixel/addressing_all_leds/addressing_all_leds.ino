@@ -34,6 +34,10 @@ Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
 
 int sensorPin=A1;
+unsigned long previousMillis = 0;
+unsigned long timing1;
+unsigned long timing2;
+void colourchange();
 void setup()
 {
   pinMode(sensorPin, INPUT);
@@ -60,55 +64,68 @@ int val;
 int db,dbclr,dbprev;
 int trigger;
 int correctionFactor;
-//const corfac;
+
 
 correctionFactor=56;
-//corfac=56;
+
 unsigned long currentMillis = millis();
  val =analogRead(sensorPin);//it varies every time so gotta update the value after initialising the sensor
  
  db = (val+83.2073) / 11.003; //Convert ADC value to dB using Regression values
  
- //delay(20);
- if(db<correctionFactor) //mean = 513
+ if(db<correctionFactor)
  {
    db=(db-correctionFactor)*(-1);
-   //db=db+correctionFactor;
+
  }
  else 
  {
    db=db-correctionFactor;
  }
  
-  //Serial.println (db);
-
- 
- if (db>=4)
- {
-  //Serial.println ("1");
-  trigger=1;
-  for(int n=0;n<strip.numPixels();n++)
-  {
-  strip.setPixelColor(0,255,0,0);
-  strip.show();
-  }
-  //Serial.println (trigger);
- }
- else
- {
-  //Serial.println ("0");
   Serial.println (db);
-  for(int n=0;n<strip.numPixels();n++)
+currentMillis=millis();
+if(currentMillis-previousMillis<50)
+if (db>4)
+{
+  
+  
+  Serial.println ("this is happening"); 
+  colourchange();
+    
+  
+  Serial.println ("came outside");
+}
+
+if(currentMillis-previousMillis>50)
+{
+  previousMillis=currentMillis;
+
+  if (db<4)
   {
-  strip.setPixelColor(n,0,0,255);
-  strip.show();
+      for(int n=0;n<strip.numPixels();n++)
+      {
+        strip.setPixelColor(n,0,0,255);
+       strip.show();
+      }
   }
-  //Serial.println (trigger);
- }
+}
+  
+ 
     
 
 
 
  
 
+}
+void colourchange()
+{ 
+  for(int n=0;n<strip.numPixels();n++)
+    {
+      strip.setPixelColor(n,255,0,0);
+      strip.show();
+    }
+    
+  
 }
