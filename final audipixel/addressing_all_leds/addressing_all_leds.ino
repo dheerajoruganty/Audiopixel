@@ -73,19 +73,12 @@ unsigned long currentMillis = millis();
  
  db = (val+83.2073) / 11.003; //Convert ADC value to dB using Regression values
  
- if(db<correctionFactor)
- {
-   db=(db-correctionFactor)*(-1);
-
- }
- else 
- {
-   db=db-correctionFactor;
- }
+   db=abs(db-correctionFactor);
  
   Serial.println (db);
 currentMillis=millis();
-if(currentMillis-previousMillis<50)
+
+
 if (db>4)
 {
   
@@ -93,13 +86,13 @@ if (db>4)
   Serial.println ("this is happening"); 
   colourchange();
     
-  
+  previousMillis=currentMillis;
   Serial.println ("came outside");
 }
 
 if(currentMillis-previousMillis>50)
 {
-  previousMillis=currentMillis;
+  //previousMillis=currentMillis;
 
   if (db<4)
   {
